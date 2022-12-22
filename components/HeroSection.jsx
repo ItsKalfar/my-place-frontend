@@ -1,0 +1,66 @@
+import React from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import CategoryCard from "./CategoryCard";
+import illustration from "../assets/illustration.webp";
+import music from "../assets/music.webp";
+import sports from "../assets/sports.webp";
+import photography from "../assets/photography.webp";
+import art from "../assets/art.webp";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/pagination";
+
+export default function HeroSection() {
+  return (
+    <div className="hero">
+      <section className="container mx-auto flex flex-col items-center py-12">
+        <h1 className="text-4xl font-bold text-white">
+          Explore, collect, and sell NFTs
+        </h1>
+        <div className=" mt-8 w-full">
+          <Swiper
+            spaceBetween={20}
+            slidesPerView="auto"
+            breakpoints={{
+              320: {
+                slidesPerView: 1.25,
+                spaceBetween: 30,
+              },
+              640: {
+                slidesPerView: 2.25,
+                spaceBetween: 10,
+              },
+              768: {
+                slidesPerView: 2.25,
+                spaceBetween: 20,
+              },
+              1024: {
+                slidesPerView: 3.15,
+                spaceBetween: 20,
+              },
+            }}
+            autoplay={{ delay: 1500, disableOnInteraction: false }}
+            loop="true"
+          >
+            <SwiperSlide>
+              <CategoryCard imgSrc={art} category="art" />
+            </SwiperSlide>
+            <SwiperSlide>
+              <CategoryCard imgSrc={illustration} category="illustration" />
+            </SwiperSlide>
+            <SwiperSlide>
+              <CategoryCard imgSrc={music} category="music" />
+            </SwiperSlide>
+            <SwiperSlide>
+              <CategoryCard imgSrc={sports} category="sports" />
+            </SwiperSlide>
+            <SwiperSlide>
+              <CategoryCard imgSrc={photography} category="photography" />
+            </SwiperSlide>
+          </Swiper>{" "}
+        </div>
+      </section>
+    </div>
+  );
+}
