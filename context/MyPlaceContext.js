@@ -3,6 +3,7 @@ import { ethers } from "ethers";
 import { toast } from "react-hot-toast";
 import MyPlaceABI from "../constants/MyPlaceABI.json";
 import NFTABI from "../constants/NFT.json";
+import axios from "axios";
 
 let eth;
 
@@ -13,14 +14,14 @@ if (typeof window !== "undefined") {
 export const MyPlaceContext = createContext();
 
 export const MyPlaceContextProvider = ({ children }) => {
-  const [currentAccount, setCurrentAccount] = useState();
-  const [isLoading, setIsLoading] = useState(false);
+  const [currentAccount, setCurrentAccount] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [allItems, setAllItems] = useState([]);
   const [stateChanged, setStateChanged] = useState(false);
   const MyPlaceAbi = MyPlaceABI.abi;
-  const MyPlaceContract = process.env.MYPLACE_CONTRACT_ADDRESS;
+  const MyPlaceContract = process.env.NEXT_PUBLIC_MY_PLACE_CONTRACT_ADDRESS;
   const NftAbi = NFTABI.abi;
-  const NftContract = process.env.NFT_CONTRACT_ADDRESS;
+  const NftContract = process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS;
 
   const connectWallet = async (metamask = eth) => {
     try {
@@ -52,13 +53,13 @@ export const MyPlaceContextProvider = ({ children }) => {
     }
   };
 
-  const getAllNFTs = async () => {};
-
   useEffect(() => {
     checkIfWalletIsConnected();
   }, [currentAccount]);
   return (
-    <MyPlaceContext.Provider value={{ connectWallet, currentAccount }}>
+    <MyPlaceContext.Provider
+      value={{ connectWallet, currentAccount, allItems }}
+    >
       {children}
     </MyPlaceContext.Provider>
   );
