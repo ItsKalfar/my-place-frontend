@@ -48,6 +48,26 @@ export default function CreateNft() {
   };
 
   const handleCreation = async () => {
+    const { name, description, price, category } = values;
+    if (!name || !description || !price || !category || !fileUrl) {
+      return toast.error("Please Provide All Inputs");
+    }
+    const data = JSON.stringify({
+      name,
+      description,
+      category,
+      image: fileUrl,
+    });
+    try {
+      const added = await client.add(data);
+      const url = `${subdomain}/ipfs/${added.path}`;
+      createSale(url);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  async function createSale(url) {
     try {
       if (
         typeof window.ethereum !== "undefined" ||
@@ -58,24 +78,7 @@ export default function CreateNft() {
           const provider = new ethers.providers.Web3Provider(ethereum);
           const signer = provider.getSigner();
           const NFT = new ethers.Contract(NftContract, NFTABI.abi, signer);
-          const MyPlace = new ethers.Contract(
-            MyPlaceContract,
-            MyPlaceABI.abi,
-            signer
-          );
-          const { name, description, price, category } = values;
-          if (!name || !description || !price || !category || !fileUrl) {
-            return toast.error("Please Provide All Inputs");
-          }
-          const data = JSON.stringify({
-            name,
-            description,
-            category,
-            image: fileUrl,
-          });
           toast.loading("Creating NFT...", { duration: 6000 });
-          const added = await client.add(data);
-          const url = `${subdomain}/ipfs/${added.path}`;
           let creation = await NFT.createNFT(url);
           let tx = await creation.wait();
           // Listening to Events
@@ -83,15 +86,21 @@ export default function CreateNft() {
           toast.success("NFT Created!");
           let value = event.args[2];
           let tokenId = parseInt(value);
+          const MyPlace = new ethers.Contract(
+            MyPlaceContract,
+            MyPlaceABI.abi,
+            signer
+          );
           let listingPrice = await MyPlace.getListingPrice();
           listingPrice = listingPrice.toString();
+          const { price, category } = values;
           toast.loading("Listing Your NFT", { duration: 4000 });
-          listingNFT = await MyPlace.listNFT(
+          let listingNFT = await MyPlace.listNFT(
             NftContract,
             tokenId,
             price,
             category,
-            { value: ethers.utils.parseEther("0.025") }
+            { value: listingPrice }
           );
           MyPlace.on("ItemListed", () => {
             toast.success("Item Listed Successfully");
@@ -101,13 +110,12 @@ export default function CreateNft() {
     } catch (error) {
       console.log(error);
     }
-  };
+  }
 
-  useEffect(() => {}, []);
   return (
     <div className=" w-full bg-white  md:w-1/2 lg:w-1/3 px-6 py-10 rounded shadow-lg text-black">
       <h1 className="uppercase mb-4 text-xl text-center font-bold">
-        Create NFT
+        Create & List NFT
       </h1>
       <div className="mb-4">
         <label className="block mb-2 text-sm font-medium text-gray-900">

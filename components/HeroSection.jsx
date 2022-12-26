@@ -6,10 +6,10 @@ import music from "../assets/music.webp";
 import sports from "../assets/sports.webp";
 import photography from "../assets/photography.webp";
 import art from "../assets/art.webp";
+import { Autoplay, Pagination, Navigation } from "swiper";
 
 // Import Swiper styles
 import "swiper/css";
-import "swiper/css/pagination";
 
 export default function HeroSection() {
   return (
@@ -40,8 +40,13 @@ export default function HeroSection() {
                 spaceBetween: 20,
               },
             }}
-            autoplay={{ delay: 1500, disableOnInteraction: false }}
-            loop="true"
+            autoplay={{
+              delay: 1500,
+              disableOnInteraction: false,
+            }}
+            navigation={true}
+            modules={[Autoplay, Pagination, Navigation]}
+            loop={true}
           >
             <SwiperSlide>
               <CategoryCard imgSrc={art} category="art" />

@@ -15,12 +15,9 @@ export const MyPlaceContext = createContext();
 
 export const MyPlaceContextProvider = ({ children }) => {
   const [currentAccount, setCurrentAccount] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
   const [allItems, setAllItems] = useState([]);
   const [stateChanged, setStateChanged] = useState(false);
-  const MyPlaceAbi = MyPlaceABI.abi;
   const MyPlaceContract = process.env.NEXT_PUBLIC_MY_PLACE_CONTRACT_ADDRESS;
-  const NftAbi = NFTABI.abi;
   const NftContract = process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS;
 
   const connectWallet = async (metamask = eth) => {
@@ -53,8 +50,38 @@ export const MyPlaceContextProvider = ({ children }) => {
     }
   };
 
+  const allNfts = async () => {
+    try {
+      if (
+        typeof window.ethereum !== "undefined" ||
+        typeof window.web3 !== "undefined"
+      ) {
+        const { ethereum } = window;
+        if (ethereum) {
+          const provider = new ethers.providers.Web3Provider(ethereum);
+          const signer = provider.getSigner();
+          const MyPlace = new ethers.Contract(
+            MyPlaceContract,
+            MyPlaceABI.abi,
+            signer
+          );
+
+          let itemId = await MyPlace.getitemId();
+          itemId = parseInt(itemId);
+          for (let index = 1; index <= itemId; index++) {
+            setAllItems([1]);
+          }
+        }
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   useEffect(() => {
     checkIfWalletIsConnected();
+    allNfts();
+    console.log(allItems);
   }, [currentAccount]);
   return (
     <MyPlaceContext.Provider
