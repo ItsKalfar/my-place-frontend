@@ -3,6 +3,7 @@ import { ethers } from "ethers";
 import { toast } from "react-hot-toast";
 import MyPlaceABI from "../constants/MyPlaceABI.json";
 import NFTABI from "../constants/NFT.json";
+import { concat } from "ethers/lib/utils";
 import axios from "axios";
 
 let eth;
@@ -14,11 +15,12 @@ if (typeof window !== "undefined") {
 export const MyPlaceContext = createContext();
 
 export const MyPlaceContextProvider = ({ children }) => {
-  const [currentAccount, setCurrentAccount] = useState(null);
-  const [allItems, setAllItems] = useState([]);
-  const [stateChanged, setStateChanged] = useState(false);
   const MyPlaceContract = process.env.NEXT_PUBLIC_MY_PLACE_CONTRACT_ADDRESS;
   const NftContract = process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS;
+  const [currentAccount, setCurrentAccount] = useState(null);
+  const [allItems, setAllItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [stateChanged, setStateChanged] = useState(false);
 
   const connectWallet = async (metamask = eth) => {
     try {
@@ -50,28 +52,30 @@ export const MyPlaceContextProvider = ({ children }) => {
     }
   };
 
-  const allNfts = async () => {
+  const getAllItems = async () => {
     try {
-      if (
-        typeof window.ethereum !== "undefined" ||
-        typeof window.web3 !== "undefined"
-      ) {
-        const { ethereum } = window;
-        if (ethereum) {
-          const provider = new ethers.providers.Web3Provider(ethereum);
-          const signer = provider.getSigner();
-          const MyPlace = new ethers.Contract(
-            MyPlaceContract,
-            MyPlaceABI.abi,
-            signer
-          );
-
-          let itemId = await MyPlace.getitemId();
-          itemId = parseInt(itemId);
-          for (let index = 1; index <= itemId; index++) {
-            setAllItems([1]);
-          }
-        }
+      const { ethereum } = window;
+      const provider = new ethers.providers.Web3Provider(ethereum);
+      await provider.send("eth_requestAccounts", []);
+      const signer = provider.getSigner();
+      const MyPlace = new ethers.Contract(
+        MyPlaceContract,
+        MyPlaceABI.abi,
+        signer
+      );
+      const NFT = new ethers.Contract(NftContract, NFTABI.abi, signer);
+      let itemId = await MyPlace.getitemId();
+      itemId = parseInt(itemId);
+      for (let index = 1; index <= itemId; index++) {
+        let getItem = await MyPlace.getListing(index);
+        let tokenId = getItem.tokenId;
+        tokenId = tokenId.toString();
+        const tokenUri = await NFT.tokenURI(tokenId);
+        const meta = await axios.get(tokenUri);
+        const price = getItem.price.toString();
+        const priceInETH = ethers.utils.formatEther(price);
+        const image = meta.data.image;
+        console.log(image);
       }
     } catch (error) {
       console.log(error.message);
@@ -80,12 +84,12 @@ export const MyPlaceContextProvider = ({ children }) => {
 
   useEffect(() => {
     checkIfWalletIsConnected();
-    allNfts();
-    console.log(allItems);
-  }, [currentAccount]);
+    getAllItems();
+  }, []);
+
   return (
     <MyPlaceContext.Provider
-      value={{ connectWallet, currentAccount, allItems }}
+      value={{ connectWallet, currentAccount, allItems, isLoading }}
     >
       {children}
     </MyPlaceContext.Provider>
