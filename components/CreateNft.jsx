@@ -1,10 +1,8 @@
 import { ethers } from "ethers";
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import { MyPlaceContext } from "../context/MyPlaceContext";
 import { create as ipfsHttpClient } from "ipfs-http-client";
 import { toast } from "react-hot-toast";
-import MyPlaceABI from "../constants/MyPlaceABI.json";
-import NFTABI from "../constants/NFT.json";
 import { Buffer } from "buffer";
 
 export default function CreateNft() {
@@ -23,10 +21,8 @@ export default function CreateNft() {
       authorization: auth,
     },
   });
-  const { currentAccount, connectWallet } = useContext(MyPlaceContext);
-  const MyPlaceContract = process.env.NEXT_PUBLIC_MY_PLACE_CONTRACT_ADDRESS;
-
-  const NftContract = process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS;
+  const { currentAccount, connectWallet, createSale } =
+    useContext(MyPlaceContext);
 
   const [values, setValues] = useState({
     name: "",
@@ -61,56 +57,12 @@ export default function CreateNft() {
     try {
       const added = await client.add(data);
       const url = `${subdomain}/ipfs/${added.path}`;
-      createSale(url);
+      console.log(url);
+      createSale(url, price, category);
     } catch (error) {
       console.log(error);
     }
   };
-
-  async function createSale(url) {
-    try {
-      if (
-        typeof window.ethereum !== "undefined" ||
-        typeof window.web3 !== "undefined"
-      ) {
-        const { ethereum } = window;
-        if (ethereum) {
-          const provider = new ethers.providers.Web3Provider(ethereum);
-          const signer = provider.getSigner();
-          const NFT = new ethers.Contract(NftContract, NFTABI.abi, signer);
-          toast.loading("Creating NFT...", { duration: 6000 });
-          let creation = await NFT.createNFT(url);
-          let tx = await creation.wait();
-          // Listening to Events
-          let event = tx.events[0];
-          toast.success("NFT Created!");
-          let value = event.args[2];
-          let tokenId = parseInt(value);
-          const MyPlace = new ethers.Contract(
-            MyPlaceContract,
-            MyPlaceABI.abi,
-            signer
-          );
-          let listingPrice = await MyPlace.getListingPrice();
-          listingPrice = listingPrice.toString();
-          const { price, category } = values;
-          toast.loading("Listing Your NFT", { duration: 4000 });
-          let listingNFT = await MyPlace.listNFT(
-            NftContract,
-            tokenId,
-            price,
-            category,
-            { value: listingPrice }
-          );
-          MyPlace.on("ItemListed", () => {
-            toast.success("Item Listed Successfully");
-          });
-        }
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
   return (
     <div className=" w-full bg-white  md:w-1/2 lg:w-1/3 px-6 py-10 rounded shadow-lg text-black">
@@ -216,8 +168,7 @@ export default function CreateNft() {
                   ></path>
                 </svg>
                 <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                  <span className="font-semibold">Click to upload</span> or drag
-                  and drop
+                  <span className="font-semibold">Click to upload</span>
                 </p>
                 <p className="text-xs text-gray-500 dark:text-gray-400">
                   SVG, PNG, JPG or GIF (MAX. 800x400px)

@@ -40,7 +40,7 @@ const Header = () => {
                 </li>
 
                 <li className="navbar-link group relative">
-                  <Link href="#services" className="">
+                  <Link href="/categories/" className="">
                     Categories
                   </Link>
                   <div className="group-hover:block dropdown-menu absolute hidden h-full">
