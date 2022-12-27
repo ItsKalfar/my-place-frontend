@@ -2,7 +2,6 @@ import Link from "next/link";
 import { useState, useContext } from "react";
 import {
   BiPhotoAlbum,
-  BiMusic,
   BiAperture,
   BiBasketball,
   BiEditAlt,
@@ -75,17 +74,6 @@ const Header = () => {
                           <span>Illustrations</span>
                         </Link>
                       </li>
-                      <li className="p-6 hover:shadow-md block cursor-pointer hover:font-semibold text-lg hover:text-blue-500 ">
-                        <Link
-                          href="/categories/music"
-                          className="flex items-start "
-                        >
-                          {" "}
-                          <BiMusic className="mr-2 mt-1" size="1.25em" />{" "}
-                          <span>Music</span>
-                        </Link>
-                      </li>
-
                       <li className="p-6 hover:shadow-md block cursor-pointer hover:font-semibold text-lg hover:text-blue-500 ">
                         <Link
                           href="/categories/photography"
