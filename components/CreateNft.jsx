@@ -4,8 +4,12 @@ import { MyPlaceContext } from "../context/MyPlaceContext";
 import { create as ipfsHttpClient } from "ipfs-http-client";
 import { toast } from "react-hot-toast";
 import { Buffer } from "buffer";
+import MyPlaceABI from "../constants/MyPlaceABI.json";
+import NFTABI from "../constants/NFT.json";
 
 export default function CreateNft() {
+  const MyPlaceContract = process.env.NEXT_PUBLIC_MY_PLACE_CONTRACT_ADDRESS;
+  const NftContract = process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS;
   const projectId = process.env.NEXT_PUBLIC_PROJECT_ID;
   const apiKey = process.env.NEXT_PUBLIC_API_KEY;
   const subdomain = process.env.NEXT_PUBLIC_SUBDOMAIN;
@@ -21,8 +25,7 @@ export default function CreateNft() {
       authorization: auth,
     },
   });
-  const { currentAccount, connectWallet, createSale } =
-    useContext(MyPlaceContext);
+  const { currentAccount, connectWallet } = useContext(MyPlaceContext);
 
   const [values, setValues] = useState({
     name: "",
@@ -61,6 +64,50 @@ export default function CreateNft() {
       createSale(url, price, category);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const createSale = async (url, price, category) => {
+    try {
+      if (
+        typeof window.ethereum !== "undefined" ||
+        typeof window.web3 !== "undefined"
+      ) {
+        const { ethereum } = window;
+        if (ethereum) {
+          const provider = new ethers.providers.Web3Provider(ethereum);
+          const signer = provider.getSigner();
+          const NFT = new ethers.Contract(NftContract, NFTABI.abi, signer);
+          toast.loading("Creating NFT...", { duration: 6000 });
+          let creation = await NFT.createNFT(url);
+          let tx = await creation.wait();
+          // Listening to Events
+          let event = tx.events[0];
+          toast.success("NFT Created!");
+          let value = event.args[2];
+          let tokenId = parseInt(value);
+          const MyPlace = new ethers.Contract(
+            MyPlaceContract,
+            MyPlaceABI.abi,
+            signer
+          );
+          let listingPrice = await MyPlace.getListingPrice();
+          listingPrice = listingPrice.toString();
+          toast.loading("Listing Your NFT", { duration: 4000 });
+          let listingNFT = await MyPlace.listNFT(
+            NftContract,
+            tokenId,
+            price,
+            category,
+            { value: listingPrice }
+          );
+          MyPlace.on("ItemListed", () => {
+            toast.success("Item Listed Successfully");
+          });
+        }
+      }
+    } catch (error) {
+      toast.error(error.message);
     }
   };
 

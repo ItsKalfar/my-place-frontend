@@ -52,50 +52,6 @@ export const MyPlaceContextProvider = ({ children }) => {
     }
   };
 
-  const createSale = async (url, price, category) => {
-    try {
-      if (
-        typeof window.ethereum !== "undefined" ||
-        typeof window.web3 !== "undefined"
-      ) {
-        const { ethereum } = window;
-        if (ethereum) {
-          const provider = new ethers.providers.Web3Provider(ethereum);
-          const signer = provider.getSigner();
-          const NFT = new ethers.Contract(NftContract, NFTABI.abi, signer);
-          toast.loading("Creating NFT...", { duration: 6000 });
-          let creation = await NFT.createNFT(url);
-          let tx = await creation.wait();
-          // Listening to Events
-          let event = tx.events[0];
-          toast.success("NFT Created!");
-          let value = event.args[2];
-          let tokenId = parseInt(value);
-          const MyPlace = new ethers.Contract(
-            MyPlaceContract,
-            MyPlaceABI.abi,
-            signer
-          );
-          let listingPrice = await MyPlace.getListingPrice();
-          listingPrice = listingPrice.toString();
-          toast.loading("Listing Your NFT", { duration: 4000 });
-          let listingNFT = await MyPlace.listNFT(
-            NftContract,
-            tokenId,
-            price,
-            category,
-            { value: listingPrice }
-          );
-          MyPlace.on("ItemListed", () => {
-            toast.success("Item Listed Successfully");
-          });
-        }
-      }
-    } catch (error) {
-      toast.error(error.message);
-    }
-  };
-
   const getAllItems = async () => {
     try {
       const { ethereum } = window;
@@ -109,14 +65,14 @@ export const MyPlaceContextProvider = ({ children }) => {
       const NFT = new ethers.Contract(NftContract, NFTABI.abi, signer);
       let itemId = await MyPlace.getitemId();
       itemId = parseInt(itemId);
+      console.log(itemId);
       for (let index = 1; index <= itemId; index++) {
         let getItem = await MyPlace.getListing(index);
         let tokenId = getItem.tokenId;
         tokenId = tokenId.toString();
+        console.log(tokenId);
         const tokenUri = await NFT.tokenURI(tokenId);
-        const meta = await axios.get(tokenUri, {
-          "Content-Type": "application/json",
-        });
+        const meta = await axios.get(tokenUri);
         const price = getItem.price.toString();
         const priceInETH = ethers.utils.formatEther(price);
         let item = {
@@ -144,7 +100,7 @@ export const MyPlaceContextProvider = ({ children }) => {
 
   return (
     <MyPlaceContext.Provider
-      value={{ connectWallet, currentAccount, allItems, isLoading, createSale }}
+      value={{ connectWallet, currentAccount, allItems, isLoading }}
     >
       {children}
     </MyPlaceContext.Provider>
