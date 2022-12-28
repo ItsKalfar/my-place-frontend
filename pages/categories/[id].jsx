@@ -1,37 +1,42 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { MyPlaceContext } from "../../context/MyPlaceContext";
 import NftCard from "../../components/NftCard";
 import { HashLoader } from "react-spinners";
+import { useRouter } from "next/router";
+import Head from "next/head";
 import Banner from "../../components/Banner";
-import Heading from "../../components/Heading";
 
-export default function index() {
+export default function Details() {
   const { isLoading, allItems } = useContext(MyPlaceContext);
+  const router = useRouter();
+  const currentId = router.query.id;
   return (
     <>
+      <Head>
+        <title>MyPlace - Details</title>
+      </Head>
       <Banner />
-      <Heading heading={"Explore All Categories"} />
-      <section className="max-w-screen-xl mx-auto py-12  h-screen">
+      <section className="max-w-screen-xl mx-auto py-12 border-2 border-black h-screen">
         {isLoading ? (
-          <div className="w-full h-screen flex items-center justify-center ">
+          <div className="w-full h-screen flex items-center justify-center border-2 border-black">
             <HashLoader color="#2193b0" />
           </div>
         ) : (
-          <div>
-            <div className="card-box">
-              {allItems.map((item) => {
-                let {
-                  price,
-                  category,
-                  itemId,
-                  owner,
-                  tokenId,
-                  seller,
-                  name,
-                  image,
-                  description,
-                } = item;
+          <div className="card-wrapper">
+            {allItems.map((item) => {
+              let {
+                price,
+                category,
+                itemId,
+                owner,
+                tokenId,
+                seller,
+                name,
+                image,
+                description,
+              } = item;
 
+              if (itemId == currentId) {
                 return (
                   <div key={itemId}>
                     <NftCard
@@ -47,8 +52,8 @@ export default function index() {
                     />
                   </div>
                 );
-              })}
-            </div>
+              }
+            })}
           </div>
         )}
       </section>

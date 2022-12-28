@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { FaEthereum } from "react-icons/fa";
 
 export default function NftCard({
   price,
@@ -13,22 +15,33 @@ export default function NftCard({
   description,
 }) {
   return (
-    <div className="shadow rounded-xl my-8 w-1/2 hover:shadow-xl cursor-pointer">
-      <Image
-        src={image}
-        alt={name}
-        className="w-full h-64 rounded-t-xl"
-        width={300}
-        height={300}
-      />
-      <div className="p-4">
-        <h1>{name}</h1>
-        <p>{description}</p>
-        <p>{category.toUpperCase()}</p>
-        <p>{seller}</p>
-        <p>{itemId}</p>
-        <p>{tokenId}</p>
+    <Link href={`/categories/${itemId}`}>
+      <div className="max-w-sm my-4 bg-white rounded-lg shadow-lg md:w-10/12 lg:w-11/12 hover:scale-105  transition-all duration-100 cursor-pointer ">
+        <div>
+          <Image
+            className="rounded-t-lg w-full h-72"
+            src={image}
+            alt={name}
+            width={200}
+            height={200}
+          />
+        </div>
+        <div className="p-5">
+          <div>
+            <h5 className="text-xl font-semibold tracking-tight text-gray-900 ">
+              {name}
+            </h5>
+          </div>
+
+          <div className="flex items-center justify-between">
+            <div className="flex text-md font-medium text-gray-900 items-start justify-center">
+              <FaEthereum className="mt-1 mr-1" /> {price}
+            </div>
+
+            <div className="btn-primary">Buy</div>
+          </div>
+        </div>
       </div>
-    </div>
+    </Link>
   );
 }

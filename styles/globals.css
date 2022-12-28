@@ -1,33 +1,39 @@
 @tailwind base;
 @tailwind components;
+
+.card-wrapper {
+  @apply grid items-center justify-center w-full sm:grid-cols-1  lg:grid-cols-2 xl:grid-cols-3;
+}
+
+.card-box {
+  @apply grid items-center justify-center w-full sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4;
+}
+
+.sticky {
+  @apply fixed shadow-md top-0 right-0 left-0 w-full bg-white;
+}
+
+.navbar-link:not(:first-child) {
+  @apply ml-8;
+}
+
+.navbar-link {
+  @apply hover:font-semibold;
+}
+
+.btn-primary {
+  @apply cursor-pointer text-white font-semibold py-3 px-8 rounded-full;
+}
+
+.overlay {
+  @apply absolute top-0 left-0 right-0 bottom-0 opacity-0 transition-opacity ease-in-out delay-200 bg-black cursor-pointer duration-100;
+}
 @tailwind utilities;
 
 html,
 body {
   overflow-x: hidden;
   scroll-behavior: smooth;
-}
-
-.sticky {
-  position: fixed;
-  box-shadow: 0 4px 15px -8px rgba(138, 138, 138, 1);
-  top: 0;
-  right: 0;
-  left: 0;
-  width: 100%;
-  background-color: white;
-}
-
-.unsticky {
-  box-shadow: 0 4px 8px -8px rgba(138, 138, 138, 1);
-}
-
-.navbar-link:not(:first-child) {
-  margin-left: 2rem;
-}
-
-.navbar-link:hover {
-  font-weight: 600;
 }
 
 .btn-primary {
@@ -38,11 +44,6 @@ body {
     #2193b0
   ); /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to right, #6dd5ed, #2193b0);
-  cursor: pointer;
-  color: white;
-  font-weight: 600;
-  padding: 0.75rem 2rem;
-  border-radius: 4rem;
 }
 
 .btn-primary:hover {
@@ -69,18 +70,6 @@ body {
   background: linear-gradient(to right, #6dd5ed, #2193b0);
 }
 
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  opacity: 0;
-  transition: opacity 0.2s ease-in-out;
-  background: black;
-  cursor: pointer;
-}
-
 .content {
   position: absolute;
   top: 50%;
@@ -102,11 +91,5 @@ body {
   #open,
   #close {
     display: none;
-  }
-}
-
-@media screen and (min-width: 1280px) {
-  .container {
-    max-width: 1280px;
   }
 }

@@ -99,6 +99,7 @@ export const MyPlaceContextProvider = ({ children }) => {
 
   const getAllItems = async () => {
     try {
+      setIsLoading(true);
       const { ethereum } = window;
       const provider = new ethers.providers.Web3Provider(ethereum);
       const signer = provider.getSigner();
@@ -110,6 +111,7 @@ export const MyPlaceContextProvider = ({ children }) => {
       const NFT = new ethers.Contract(NftContract, NFTABI.abi, signer);
       let itemId = await MyPlace.getitemId();
       itemId = parseInt(itemId);
+
       for (let index = 1; index <= itemId; index++) {
         let getItem = await MyPlace.getListing(index);
         let tokenId = getItem.tokenId;
@@ -122,14 +124,16 @@ export const MyPlaceContextProvider = ({ children }) => {
           price: priceInETH,
           itemId: getItem.itemId.toString(),
           tokenId: tokenId,
-          seller: getItem.seller,
+          seller: getItem.seller.toString(),
           owner: getItem.owner,
           image: meta.data.image,
           name: meta.data.name,
           category: meta.data.category,
           description: meta.data.description,
         };
+
         setAllItems((prev) => [item, ...prev]);
+        setIsLoading(false);
       }
     } catch (error) {
       console.log(error);

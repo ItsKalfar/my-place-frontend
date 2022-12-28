@@ -14,7 +14,7 @@ import "swiper/css";
 export default function HeroSection() {
   return (
     <div className="hero">
-      <section className="container mx-auto flex flex-col items-center py-12">
+      <section className="max-w-screen-lg mx-auto flex flex-col items-center py-12">
         <h1 className="text-4xl font-bold text-white">
           Explore, collect, and sell NFTs
         </h1>

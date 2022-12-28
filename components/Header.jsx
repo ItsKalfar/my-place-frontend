@@ -5,6 +5,7 @@ import {
   BiAperture,
   BiBasketball,
   BiEditAlt,
+  BiEdit,
 } from "react-icons/bi";
 import { motion } from "framer-motion";
 import Sticky from "react-stickynode";
@@ -30,17 +31,17 @@ const Header = () => {
         transition={{ duration: 0.5 }}
       >
         <nav id="navbar" className={isSticky ? "sticky" : "unsticky"}>
-          <div className="container mx-auto p-6 flex items-center justify-between">
+          <div className="max-w-screen-xl mx-auto p-6 flex items-center justify-between">
             <div className="flex w-full items-center justify-between">
               <Link href="/">MyPlace</Link>
               <ul className="flex items-center justify-between">
                 <li className="navbar-link">
-                  <Link href="/">Home</Link>
+                  <Link href="/">HOME</Link>
                 </li>
 
                 <li className="navbar-link group relative">
                   <Link href="/categories/" className="">
-                    Categories
+                    CATEGORIES
                   </Link>
                   <div className="group-hover:block dropdown-menu absolute hidden h-full">
                     <ul className="top-0 mt-6 -ml-20 w-60 bg-white shadow-xl flex flex-col">
@@ -51,7 +52,7 @@ const Header = () => {
                             className="mr-2 mt-1"
                             size="1.25em"
                           />{" "}
-                          <span>All NFT</span>
+                          <span>All Nfts</span>
                         </Link>
                       </li>
                       <li className="p-6 hover:shadow-md block cursor-pointer hover:font-semibold text-lg hover:text-blue-500 ">
@@ -70,7 +71,7 @@ const Header = () => {
                           className="flex items-start "
                         >
                           {" "}
-                          <BiEditAlt className="mr-2 mt-1" size="1.25em" />{" "}
+                          <BiEdit className="mr-2 mt-1" size="1.25em" />{" "}
                           <span>Illustrations</span>
                         </Link>
                       </li>
@@ -104,11 +105,9 @@ const Header = () => {
                   </div>
                 </li>
                 <li className="navbar-link">
-                  <Link href="/mynft">My NFTs</Link>
+                  <Link href="/mynft">MY NFTs</Link>
                 </li>
-                <li className="navbar-link">
-                  <Link href="/swap">Swap</Link>
-                </li>
+
                 <li className="navbar-link btn-primary">
                   {currentAccount ? (
                     <button>

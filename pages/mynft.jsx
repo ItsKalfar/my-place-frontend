@@ -17,11 +17,11 @@ export default function createNFT() {
       </Head>
       <Toaster position="top-center" reverseOrder={false} />
       <section className="">
-        <div className="container mx-auto flex flex-col items-start justify-start md:flex-row py-24 ">
+        <div className="max-w-screen-xl mx-auto flex flex-col items-start justify-start md:flex-row py-24 ">
           <CreateNft />
           <div className="w-full mt-1  md:w-1/2 md:ml-8 md:mt-0  lg:w-2/3">
             <div>My NFTS</div>
-            <div>
+            <div className="card-wrapper">
               {allItems.map((item) => {
                 let {
                   price,
@@ -47,6 +47,7 @@ export default function createNFT() {
                         owner={owner}
                         tokenId={tokenId}
                         description={description}
+                        seller={seller}
                       />
                     </div>
                   );
