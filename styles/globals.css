@@ -6,19 +6,23 @@
 }
 
 .card-box {
-  @apply grid items-center justify-center w-full sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4;
+  @apply px-8 grid items-center justify-center w-full sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4;
 }
 
 .sticky {
   @apply fixed shadow-md top-0 right-0 left-0 w-full bg-white;
 }
 
+.navbar-link {
+  @apply font-semibold;
+}
+
 .navbar-link:not(:first-child) {
   @apply ml-8;
 }
 
-.navbar-link {
-  @apply hover:font-semibold;
+.navbar-link:not(:last-child) {
+  @apply hover:font-bold;
 }
 
 .btn-primary {
@@ -27,6 +31,20 @@
 
 .overlay {
   @apply absolute top-0 left-0 right-0 bottom-0 opacity-0 transition-opacity ease-in-out delay-200 bg-black cursor-pointer duration-100;
+}
+
+.gradient-bg {
+  background: #373b44; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #4286f4,
+    #373b44
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #4286f4,
+    #373b44
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 @tailwind utilities;
 
@@ -37,13 +55,18 @@ body {
 }
 
 .btn-primary {
-  background: #2193b0; /* fallback for old browsers */
+  background: #667db6; /* fallback for old browsers */
   background: -webkit-linear-gradient(
     to right,
-    #6dd5ed,
-    #2193b0
+    #0082c8,
+    #0082c8
   ); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #6dd5ed, #2193b0);
+  background: linear-gradient(
+    to right,
+
+    #0082c8,
+    #0082c8
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 .btn-primary:hover {
@@ -58,16 +81,6 @@ body {
     #0083b0,
     #00b4db
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-}
-
-.hero {
-  background: #2193b0; /* fallback for old browsers */
-  background: -webkit-linear-gradient(
-    to right,
-    #6dd5ed,
-    #2193b0
-  ); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #6dd5ed, #2193b0);
 }
 
 .content {

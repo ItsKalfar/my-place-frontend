@@ -6,7 +6,7 @@ import Banner from "../../components/Banner";
 import Heading from "../../components/Heading";
 import Head from "next/head";
 
-export default function art() {
+export default function threeD() {
   const { isLoading, allItems, currentAccount } = useContext(MyPlaceContext);
   return (
     <>
@@ -18,7 +18,7 @@ export default function art() {
           {" "}
           <Banner />
           <Heading
-            heading={"Explore Art"}
+            heading={"Explore 3D Art"}
             description={
               "An online community of makers, developers, and traders is pushing the art world into new territory. It all started with CryptoPunks, a set of 10,000 randomly generated punks that proved demand for the digital ownership of non-physical items and collectibles in 2017, and the market has evolved rapidly ever since."
             }
@@ -44,7 +44,7 @@ export default function art() {
                       description,
                     } = item;
 
-                    if (category === "art") {
+                    if (category === "threeD") {
                       return (
                         <div key={itemId}>
                           <NftCard

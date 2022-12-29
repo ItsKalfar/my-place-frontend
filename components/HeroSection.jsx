@@ -13,12 +13,12 @@ import "swiper/css";
 
 export default function HeroSection() {
   return (
-    <div className="hero">
-      <section className="max-w-screen-lg mx-auto flex flex-col items-center py-12">
-        <h1 className="text-4xl font-bold text-white">
+    <div className="gradient-bg">
+      <section className="max-w-screen-2xl mx-auto flex flex-col items-center py-12">
+        <h1 className="text-6xl font-bold text-white">
           Explore, collect, and sell NFTs
         </h1>
-        <div className=" mt-8 w-full">
+        <div className=" mt-8 py-12 px-8 w-full">
           <Swiper
             spaceBetween={20}
             slidesPerView="auto"
@@ -55,7 +55,7 @@ export default function HeroSection() {
               <CategoryCard imgSrc={illustration} category="illustration" />
             </SwiperSlide>
             <SwiperSlide>
-              <CategoryCard imgSrc={music} category="music" />
+              <CategoryCard imgSrc={music} category="threeD" />
             </SwiperSlide>
             <SwiperSlide>
               <CategoryCard imgSrc={sports} category="sports" />

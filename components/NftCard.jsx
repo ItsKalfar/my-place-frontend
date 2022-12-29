@@ -16,7 +16,7 @@ export default function NftCard({
 }) {
   return (
     <Link href={`/categories/${itemId}`}>
-      <div className="max-w-sm my-4 bg-white rounded-lg shadow-lg md:w-10/12 lg:w-11/12 hover:scale-105  transition-all duration-100 cursor-pointer ">
+      <div className="max-w-sm my-4 bg-white rounded-lg drop-shadow-lg md:w-10/12 lg:w-11/12 hover:scale-105  transition-all duration-100 cursor-pointer ">
         <div>
           <Image
             className="rounded-t-lg w-full h-72"

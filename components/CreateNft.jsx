@@ -27,7 +27,7 @@ export default function CreateNft() {
   const [values, setValues] = useState({
     name: "",
     description: "",
-    price: 0n,
+    price: "",
     category: "art",
   });
   const [fileUrl, setFileUrl] = useState(null);
@@ -65,14 +65,8 @@ export default function CreateNft() {
   };
 
   return (
-    <div className=" w-full bg-white  md:w-1/2 lg:w-1/3 px-6 py-10 rounded text-black">
-      <h1 className="uppercase mb-4 text-xl text-center font-bold">
-        Create & List NFT
-      </h1>
-      <div className="mb-4">
-        <label className="block mb-2 text-sm font-medium text-gray-900">
-          Name
-        </label>
+    <div className=" w-full md:w-1/2 lg:w-1/3 px-6 py-10 rounded text-black">
+      <div className="mb-8">
         <input
           type="text"
           className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -82,10 +76,7 @@ export default function CreateNft() {
           }
         />
       </div>
-      <div className="mb-4">
-        <label className="block mb-2 text-sm font-medium text-gray-900">
-          Description
-        </label>
+      <div className="mb-8">
         <input
           type="text"
           className=" appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -96,9 +87,6 @@ export default function CreateNft() {
         />
       </div>
       <div className="mb-8">
-        <label className="block mb-2 text-sm font-medium text-gray-900">
-          Price
-        </label>
         <input
           type="number"
           className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -106,15 +94,12 @@ export default function CreateNft() {
           onChange={(e) =>
             setValues((prev) => ({
               ...prev,
-              price: ethers.utils.parseEther(e.target.value.toString()),
+              price: ethers.utils.parseEther(e.target.value),
             }))
           }
         />
       </div>
-      <div className="mb-4">
-        <label className="block mb-2 text-sm font-medium text-gray-900">
-          Category
-        </label>
+      <div className="mb-8">
         <select
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
           onChange={(e) =>
@@ -132,6 +117,9 @@ export default function CreateNft() {
           </option>
           <option className="p-2.5" value="sports">
             Sports
+          </option>
+          <option className="p-2.5" value="threeD">
+            3D
           </option>
         </select>
       </div>
@@ -164,10 +152,10 @@ export default function CreateNft() {
                     d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
                   ></path>
                 </svg>
-                <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                <p className="mb-2 text-sm text-gray-500">
                   <span className="font-semibold">Click to upload</span>
                 </p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
+                <p className="text-xs text-gray-500">
                   SVG, PNG, JPG or GIF (MAX. 800x400px)
                 </p>
               </div>

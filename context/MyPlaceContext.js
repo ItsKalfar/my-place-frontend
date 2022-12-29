@@ -102,6 +102,7 @@ export const MyPlaceContextProvider = ({ children }) => {
       setIsLoading(true);
       const { ethereum } = window;
       const provider = new ethers.providers.Web3Provider(ethereum);
+      await provider.send("eth_requestAccounts", []);
       const signer = provider.getSigner();
       const MyPlace = new ethers.Contract(
         MyPlaceContract,
@@ -142,8 +143,10 @@ export const MyPlaceContextProvider = ({ children }) => {
 
   useEffect(() => {
     checkIfWalletIsConnected();
-    getAllItems();
-  }, []);
+    if (currentAccount) {
+      getAllItems();
+    }
+  }, [currentAccount]);
 
   return (
     <MyPlaceContext.Provider

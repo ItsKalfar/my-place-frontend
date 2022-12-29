@@ -7,6 +7,7 @@ const nextConfig = {
       `${process.env.NEXT_PUBLIC_SUBDOMAIN}/ipfs`,
       `${process.env.NEXT_PUBLIC_SUBDOMAIN}/ipfs/`,
       process.env.NEXT_PUBLIC_INFURA_HOST,
+      "i.seadn.io",
     ],
   },
 };

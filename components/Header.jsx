@@ -7,6 +7,7 @@ import {
   BiEditAlt,
   BiEdit,
 } from "react-icons/bi";
+import { GrThreeDEffects } from "react-icons/gr";
 import { motion } from "framer-motion";
 import Sticky from "react-stickynode";
 import { MyPlaceContext } from "../context/MyPlaceContext";
@@ -31,7 +32,7 @@ const Header = () => {
         transition={{ duration: 0.5 }}
       >
         <nav id="navbar" className={isSticky ? "sticky" : "unsticky"}>
-          <div className="max-w-screen-xl mx-auto p-6 flex items-center justify-between">
+          <div className="max-w-screen-2xl mx-auto p-6 flex items-center justify-between">
             <div className="flex w-full items-center justify-between">
               <Link href="/">MyPlace</Link>
               <ul className="flex items-center justify-between">
@@ -45,7 +46,7 @@ const Header = () => {
                   </Link>
                   <div className="group-hover:block dropdown-menu absolute hidden h-full">
                     <ul className="top-0 mt-6 -ml-20 w-60 bg-white shadow-xl flex flex-col">
-                      <li className="p-6 hover:shadow-md block cursor-pointer hover:font-semibold text-lg hover:text-blue-500 ">
+                      <li className="p-6 hover:shadow-inner block cursor-pointer hover:font-semibold text-lg hover:text-blue-500 ">
                         <Link href="/categories/" className="flex items-start ">
                           {" "}
                           <BiAperture
@@ -55,7 +56,7 @@ const Header = () => {
                           <span>All Nfts</span>
                         </Link>
                       </li>
-                      <li className="p-6 hover:shadow-md block cursor-pointer hover:font-semibold text-lg hover:text-blue-500 ">
+                      <li className="p-6 hover:shadow-inner block cursor-pointer hover:font-semibold text-lg hover:text-blue-500 ">
                         <Link
                           href="/categories/art"
                           className="flex items-start "
@@ -65,7 +66,7 @@ const Header = () => {
                           <span>Art</span>
                         </Link>
                       </li>
-                      <li className="p-6 hover:shadow-md block cursor-pointer hover:font-semibold text-lg hover:text-blue-500 ">
+                      <li className="p-6 hover:shadow-inner block cursor-pointer hover:font-semibold text-lg hover:text-blue-500 ">
                         <Link
                           href="/categories/illustration"
                           className="flex items-start "
@@ -75,7 +76,7 @@ const Header = () => {
                           <span>Illustrations</span>
                         </Link>
                       </li>
-                      <li className="p-6 hover:shadow-md block cursor-pointer hover:font-semibold text-lg hover:text-blue-500 ">
+                      <li className="p-6 hover:shadow-inner block cursor-pointer hover:font-semibold text-lg hover:text-blue-500 ">
                         <Link
                           href="/categories/photography"
                           className="flex items-start "
@@ -88,7 +89,7 @@ const Header = () => {
                           <span>Photography</span>
                         </Link>
                       </li>
-                      <li className="p-6 hover:shadow-md block cursor-pointer hover:font-semibold text-lg hover:text-blue-500 ">
+                      <li className="p-6 hover:shadow-inner block cursor-pointer hover:font-semibold text-lg hover:text-blue-500 ">
                         <Link
                           href="/categories/sports"
                           className="flex items-start "
@@ -99,6 +100,19 @@ const Header = () => {
                             size="1.25em"
                           />{" "}
                           <span>Sports</span>
+                        </Link>
+                      </li>
+                      <li className="p-6 hover:shadow-inner block cursor-pointer hover:font-semibold text-lg hover:text-blue-500 ">
+                        <Link
+                          href="/categories/threeD"
+                          className="flex items-start "
+                        >
+                          {" "}
+                          <GrThreeDEffects
+                            className="mr-2 mt-1"
+                            size="1.25em"
+                          />{" "}
+                          <span>3D Art</span>
                         </Link>
                       </li>
                     </ul>
