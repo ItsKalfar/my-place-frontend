@@ -89,6 +89,7 @@ export const MyPlaceContextProvider = ({ children }) => {
           MyPlace.on("ItemListed", () => {
             toast.success("Item Listed Successfully");
           });
+          setStateChanged(!stateChanged);
           getAllItems();
         }
       }
@@ -125,12 +126,13 @@ export const MyPlaceContextProvider = ({ children }) => {
           price: priceInETH,
           itemId: getItem.itemId.toString(),
           tokenId: tokenId,
-          seller: getItem.seller.toString(),
-          owner: getItem.owner,
+          seller: getItem.seller.toString().toLowerCase(),
+          owner: getItem.owner.toString().toLowerCase(),
           image: meta.data.image,
           name: meta.data.name,
           category: meta.data.category,
           description: meta.data.description,
+          nftContract: getItem.nftContract,
         };
 
         setAllItems((prev) => [item, ...prev]);
@@ -138,6 +140,35 @@ export const MyPlaceContextProvider = ({ children }) => {
       }
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const buyItem = async (itemId, nftContract, price) => {
+    try {
+      if (
+        typeof window.ethereum !== "undefined" ||
+        typeof window.web3 !== "undefined"
+      ) {
+        let priceinWei = ethers.utils.parseEther(price);
+        const { ethereum } = window;
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        console.log("fired");
+        const MyPlace = new ethers.Contract(
+          MyPlaceContract,
+          MyPlaceABI.abi,
+          signer
+        );
+        toast.loading("Processing Your Purchase", { duration: 4000 });
+        let buyNft = await MyPlace.buyNFT(itemId, nftContract, {
+          value: priceinWei,
+        });
+        MyPlace.on("ItemBought", () => {
+          toast.success("Item Bought");
+        });
+      }
+    } catch (error) {
+      console.log(error.message);
     }
   };
 
@@ -150,7 +181,14 @@ export const MyPlaceContextProvider = ({ children }) => {
 
   return (
     <MyPlaceContext.Provider
-      value={{ connectWallet, currentAccount, allItems, isLoading, createSale }}
+      value={{
+        connectWallet,
+        currentAccount,
+        allItems,
+        isLoading,
+        createSale,
+        buyItem,
+      }}
     >
       {children}
     </MyPlaceContext.Provider>

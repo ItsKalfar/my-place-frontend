@@ -42,7 +42,7 @@ export default function LatestNft() {
         loop={true}
         className="w-full my-8"
       >
-        {allItems.slice(0, 5).map((item) => {
+        {allItems.slice(0, 10).map((item) => {
           let {
             price,
             category,

@@ -2,11 +2,7 @@
 @tailwind components;
 
 .card-wrapper {
-  @apply grid items-center justify-center w-full sm:grid-cols-1  lg:grid-cols-2 xl:grid-cols-3;
-}
-
-.card-box {
-  @apply px-8 grid items-center justify-center w-full sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4;
+  @apply grid items-start justify-center w-full  sm:grid-cols-1  lg:grid-cols-2 xl:grid-cols-3 border-2 border-black;
 }
 
 .sticky {

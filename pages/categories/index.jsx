@@ -19,27 +19,28 @@ export default function index() {
           {" "}
           <Banner />
           <Heading heading={"Explore All Categories"} />
-          <section className="max-w-screen-xl mx-auto py-12  h-screen">
+          <section className="max-w-screen-2xl mx-auto py-12 h-screen">
             {isLoading ? (
               <div className="w-full h-screen flex items-center justify-center ">
                 <HashLoader color="#2193b0" />
               </div>
             ) : (
-              <div>
-                <div className="card-box">
-                  {allItems.map((item) => {
-                    let {
-                      price,
-                      category,
-                      itemId,
-                      owner,
-                      tokenId,
-                      seller,
-                      name,
-                      image,
-                      description,
-                    } = item;
+              <div className="card-wrapper">
+                {allItems.map((item) => {
+                  let {
+                    price,
+                    category,
+                    itemId,
+                    owner,
+                    tokenId,
+                    seller,
+                    name,
+                    image,
+                    description,
+                    nftContract,
+                  } = item;
 
+                  if (currentAccount !== seller || currentAccount !== owner) {
                     return (
                       <div key={itemId}>
                         <NftCard
@@ -52,11 +53,12 @@ export default function index() {
                           tokenId={tokenId}
                           description={description}
                           seller={seller}
+                          nftContract={nftContract}
                         />
                       </div>
                     );
-                  })}
-                </div>
+                  }
+                })}
               </div>
             )}
           </section>

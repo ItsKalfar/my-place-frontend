@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FaEthereum } from "react-icons/fa";
+import { MyPlaceContext } from "../context/MyPlaceContext";
 
 export default function NftCard({
   price,
@@ -13,35 +14,45 @@ export default function NftCard({
   name,
   image,
   description,
+  nftContract,
 }) {
+  const { currentAccount, buyItem } = useContext(MyPlaceContext);
+
   return (
-    <Link href={`/categories/${itemId}`}>
-      <div className="max-w-sm my-4 bg-white rounded-lg drop-shadow-lg md:w-10/12 lg:w-11/12 hover:scale-105  transition-all duration-100 cursor-pointer ">
+    <div className="max-w-sm my-4 bg-white rounded-lg drop-shadow-lg md:w-10/12 lg:w-11/12 hover:scale-105  transition-all duration-100 cursor-pointer ">
+      <Link href={`/categories/${itemId}`}>
+        <Image
+          className="rounded-t-lg w-full h-72"
+          src={image}
+          alt={name}
+          width={200}
+          height={200}
+        />
+      </Link>
+
+      <div className="p-5">
         <div>
-          <Image
-            className="rounded-t-lg w-full h-72"
-            src={image}
-            alt={name}
-            width={200}
-            height={200}
-          />
+          <h5 className="text-xl font-semibold tracking-tight text-gray-900 ">
+            {name}
+          </h5>
         </div>
-        <div className="p-5">
-          <div>
-            <h5 className="text-xl font-semibold tracking-tight text-gray-900 ">
-              {name}
-            </h5>
-          </div>
 
-          <div className="flex items-center justify-between">
-            <div className="flex text-md font-medium text-gray-900 items-start justify-center">
-              <FaEthereum className="mt-1 mr-1" /> {price}
+        <div className="flex items-center justify-between">
+          <div className="flex text-md font-medium text-gray-900 items-start justify-center">
+            <FaEthereum className="mt-1 mr-1" /> {price}
+          </div>
+          {currentAccount == seller || currentAccount == owner ? (
+            <div className="btn-primary">Owned</div>
+          ) : (
+            <div
+              className="btn-primary"
+              onClick={() => buyItem(itemId, nftContract, price)}
+            >
+              Buy
             </div>
-
-            <div className="btn-primary">Buy</div>
-          </div>
+          )}
         </div>
       </div>
-    </Link>
+    </div>
   );
 }
