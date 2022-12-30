@@ -33,21 +33,17 @@ const Header = () => {
       >
         <nav id="navbar" className={isSticky ? "sticky" : "unsticky"}>
           <div className="max-w-screen-2xl mx-auto p-6 flex items-center justify-between">
-            <div className="flex w-full items-center justify-between">
+            <div className="flex flex-col md:flex-row w-full items-center justify-between">
               <Link href="/" className="text-4xl font-bold">
                 MyPlace
               </Link>
               <ul className="flex items-center justify-between">
-                <li className="navbar-link">
-                  <Link href="/">HOME</Link>
-                </li>
-
                 <li className="navbar-link group relative">
                   <Link href="/categories/" className="">
                     CATEGORIES
                   </Link>
                   <div className="group-hover:block dropdown-menu absolute hidden h-full">
-                    <ul className="top-0 mt-6 -ml-20 w-60 bg-white shadow-xl flex flex-col">
+                    <ul className="top-0 mt-6 -ml-6 md:-ml-20 w-60 bg-white shadow-xl flex flex-col">
                       <li className="p-6 hover:shadow-inner block cursor-pointer hover:font-semibold text-lg hover:text-blue-500 ">
                         <Link href="/categories/" className="flex items-start ">
                           {" "}
@@ -121,9 +117,8 @@ const Header = () => {
                   </div>
                 </li>
                 <li className="navbar-link">
-                  <Link href="/mynft">MY NFTs</Link>
+                  <Link href="/mynft">MY NFT</Link>
                 </li>
-
                 <li className="navbar-link btn-primary">
                   {currentAccount ? (
                     <button>

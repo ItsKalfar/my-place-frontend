@@ -15,7 +15,7 @@ export default function HeroSection() {
   return (
     <div className="gradient-bg">
       <section className="max-w-screen-2xl mx-auto flex flex-col items-center py-12">
-        <h1 className="text-6xl font-bold text-white">
+        <h1 className="font-bold text-center text-2xl md:text-4xl lg:text-6xl uppercase text-white">
           Explore, collect, and sell NFTs
         </h1>
         <div className=" mt-8 py-12 px-8 w-full">

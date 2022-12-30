@@ -16,7 +16,9 @@ export default function illustration() {
       {currentAccount ? (
         <div>
           {" "}
-          <Banner />
+          <Banner
+            img={"https://4kwallpapers.com/images/walls/thumbs_2t/8813.jpg"}
+          />
           <Heading
             heading={"Explore Illustration"}
             description={

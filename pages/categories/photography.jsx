@@ -16,7 +16,9 @@ export default function photography() {
       {currentAccount ? (
         <div>
           {" "}
-          <Banner />
+          <Banner
+            img={"https://4kwallpapers.com/images/walls/thumbs/7526.jpg"}
+          />
           <Heading
             heading={"Explore Photography"}
             description={

@@ -16,7 +16,9 @@ export default function threeD() {
       {currentAccount ? (
         <div>
           {" "}
-          <Banner />
+          <Banner
+            img={"https://4kwallpapers.com/images/walls/thumbs_2t/8128.jpeg"}
+          />
           <Heading
             heading={"Explore 3D Art"}
             description={

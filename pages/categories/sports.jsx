@@ -16,7 +16,9 @@ export default function sports() {
       {currentAccount ? (
         <div>
           {" "}
-          <Banner />
+          <Banner
+            img={"https://4kwallpapers.com/images/walls/thumbs_2t/8380.png"}
+          />
           <Heading
             heading={"Explore Sport NFTs"}
             description={

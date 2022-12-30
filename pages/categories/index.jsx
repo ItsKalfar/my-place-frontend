@@ -18,7 +18,9 @@ export default function index() {
       {currentAccount ? (
         <div>
           {" "}
-          <Banner />
+          <Banner
+            img={"https://4kwallpapers.com/images/walls/thumbs_2t/8298.jpg"}
+          />
           <Heading heading={"Explore All Categories"} />
           <section className="max-w-screen-2xl mx-auto py-12">
             {isLoading ? (
