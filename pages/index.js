@@ -19,6 +19,9 @@ export default function Home() {
         {currentAccount ? (
           <div>
             <HeroSection />
+            <h1 className="text-6xl font-bold text-center mt-16 text-gray-800">
+              Latest NFTs
+            </h1>
             <LatestNft />
             <div className="gradient-bg">
               <div className="max-w-screen-2xl mx-auto flex flex-col items-start justify-between md:flex-row py-24 px-8">

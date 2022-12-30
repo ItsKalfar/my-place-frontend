@@ -42,9 +42,15 @@ export default function threeD() {
                       name,
                       image,
                       description,
+                      sold,
                     } = item;
 
-                    if (category === "threeD") {
+                    if (
+                      category === "threeD" &&
+                      currentAccount !== seller &&
+                      currentAccount !== owner &&
+                      sold == false
+                    ) {
                       return (
                         <div key={itemId}>
                           <NftCard

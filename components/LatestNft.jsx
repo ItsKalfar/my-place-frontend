@@ -6,12 +6,11 @@ import NftCard from "./NftCard";
 import { Pagination, Navigation } from "swiper";
 
 export default function LatestNft() {
-  const { isLoading, allItems } = useContext(MyPlaceContext);
+  const { isLoading, allItems, currentAccount } = useContext(MyPlaceContext);
 
   return (
-    <div className="max-w-screen-2xl mx-auto flex flex-col items-center px-8 py-24 ">
+    <div className="max-w-screen-2xl mx-auto flex flex-col items-center px-8 py-12 ">
       {" "}
-      <h1 className="text-6xl font-bold text-gray-800">Latest NFTs</h1>
       <Swiper
         spaceBetween={20}
         slidesPerView="auto"
@@ -42,7 +41,7 @@ export default function LatestNft() {
         loop={true}
         className="w-full my-8"
       >
-        {allItems.slice(0, 10).map((item) => {
+        {allItems.slice(0, 20).map((item) => {
           let {
             price,
             category,
@@ -53,23 +52,29 @@ export default function LatestNft() {
             name,
             image,
             description,
+            sold,
           } = item;
-
-          return (
-            <SwiperSlide key={tokenId}>
-              <NftCard
-                image={image}
-                name={name}
-                price={price}
-                category={category}
-                itemId={itemId}
-                owner={owner}
-                tokenId={tokenId}
-                description={description}
-                seller={seller}
-              />
-            </SwiperSlide>
-          );
+          if (
+            currentAccount !== seller &&
+            currentAccount !== owner &&
+            sold !== true
+          ) {
+            return (
+              <SwiperSlide key={tokenId}>
+                <NftCard
+                  image={image}
+                  name={name}
+                  price={price}
+                  category={category}
+                  itemId={itemId}
+                  owner={owner}
+                  tokenId={tokenId}
+                  description={description}
+                  seller={seller}
+                />
+              </SwiperSlide>
+            );
+          }
         })}
       </Swiper>
       ;

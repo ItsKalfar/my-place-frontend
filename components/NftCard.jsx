@@ -6,20 +6,18 @@ import { MyPlaceContext } from "../context/MyPlaceContext";
 
 export default function NftCard({
   price,
-  category,
   itemId,
   owner,
-  tokenId,
   seller,
   name,
   image,
-  description,
   nftContract,
+  sold,
 }) {
   const { currentAccount, buyItem } = useContext(MyPlaceContext);
 
   return (
-    <div className="max-w-sm my-4 bg-white rounded-lg drop-shadow-lg md:w-10/12 lg:w-11/12 hover:scale-105  transition-all duration-100 cursor-pointer ">
+    <div className="max-w-sm my-4 bg-white rounded-lg drop-shadow-md md:w-10/12 lg:w-11/12 hover:scale-105  transition-all duration-100 cursor-pointer ">
       <Link href={`/categories/${itemId}`}>
         <Image
           className="rounded-t-lg w-full h-72"
@@ -36,13 +34,16 @@ export default function NftCard({
             {name}
           </h5>
         </div>
+        <p>{seller.slice(0, 5) + "..." + seller.slice(37, 42)}</p>
 
         <div className="flex items-center justify-between">
           <div className="flex text-md font-medium text-gray-900 items-start justify-center">
             <FaEthereum className="mt-1 mr-1" /> {price}
           </div>
-          {currentAccount == seller || currentAccount == owner ? (
+          {currentAccount === seller || currentAccount === owner ? (
             <div className="btn-primary">Owned</div>
+          ) : sold === true ? (
+            <div className="btn-primary">Sold</div>
           ) : (
             <div
               className="btn-primary"

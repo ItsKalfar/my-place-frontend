@@ -42,9 +42,15 @@ export default function photography() {
                       name,
                       image,
                       description,
+                      sold,
                     } = item;
 
-                    if (category === "photography") {
+                    if (
+                      category === "photography" &&
+                      currentAccount !== seller &&
+                      currentAccount !== owner &&
+                      sold == false
+                    ) {
                       return (
                         <div key={itemId}>
                           <NftCard

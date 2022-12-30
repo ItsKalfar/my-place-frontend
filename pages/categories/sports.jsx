@@ -42,9 +42,15 @@ export default function sports() {
                       name,
                       image,
                       description,
+                      sold,
                     } = item;
 
-                    if (category === "sports") {
+                    if (
+                      category === "sports" &&
+                      currentAccount !== seller &&
+                      currentAccount !== owner &&
+                      sold == false
+                    ) {
                       return (
                         <div key={itemId}>
                           <NftCard

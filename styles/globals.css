@@ -2,7 +2,11 @@
 @tailwind components;
 
 .card-wrapper {
-  @apply grid items-start justify-center w-full  sm:grid-cols-1  lg:grid-cols-2 xl:grid-cols-3 border-2 border-black;
+  @apply grid items-start justify-center w-full  sm:grid-cols-1  lg:grid-cols-2 xl:grid-cols-3;
+}
+
+.card-box {
+  @apply grid items-start justify-center w-full sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5;
 }
 
 .sticky {
@@ -42,6 +46,22 @@
     #373b44
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
+
+.filter-btn {
+  @apply cursor-pointer border-2 border-blue-500 py-2 px-6 rounded-full text-blue-500 font-semibold;
+}
+
+.filter-btn:hover {
+  background: #00b4db;
+  background: -webkit-linear-gradient(to right, #0083b0, #00b4db);
+  background: linear-gradient(to right, #0083b0, #00b4db);
+  @apply text-white border-white;
+}
+
+.header {
+  @apply font-semibold border-gray-800 border-2 py-1 px-6 text-white bg-gray-800 rounded-full w-1/3 text-center lg:w-1/4;
+}
+
 @tailwind utilities;
 
 html,

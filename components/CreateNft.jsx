@@ -77,8 +77,8 @@ export default function CreateNft() {
         />
       </div>
       <div className="mb-8">
-        <input
-          type="text"
+        <textarea
+          rows="4"
           className=" appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           placeholder="Enter Description..."
           onChange={(e) =>

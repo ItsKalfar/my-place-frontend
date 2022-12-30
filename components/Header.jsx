@@ -34,7 +34,9 @@ const Header = () => {
         <nav id="navbar" className={isSticky ? "sticky" : "unsticky"}>
           <div className="max-w-screen-2xl mx-auto p-6 flex items-center justify-between">
             <div className="flex w-full items-center justify-between">
-              <Link href="/">MyPlace</Link>
+              <Link href="/" className="text-4xl font-bold">
+                MyPlace
+              </Link>
               <ul className="flex items-center justify-between">
                 <li className="navbar-link">
                   <Link href="/">HOME</Link>

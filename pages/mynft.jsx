@@ -5,10 +5,25 @@ import { MyPlaceContext } from "../context/MyPlaceContext";
 import Head from "next/head";
 import NftCard from "../components/NftCard";
 import { HashLoader } from "react-spinners";
+import { all } from "axios";
 
 export default function createNFT() {
   const { currentAccount, isLoading, allItems } = useContext(MyPlaceContext);
+  const [items, setItems] = useState(allItems);
 
+  const handleMyNfts = () => {
+    const updatedItems = allItems.filter((item) => {
+      return item.seller == currentAccount;
+    });
+    setItems(updatedItems);
+  };
+
+  const handlePurchasedNfts = () => {
+    const updatedItems = allItems.filter((item) => {
+      return item.owner === currentAccount;
+    });
+    setItems(updatedItems);
+  };
   return (
     <>
       <Head>
@@ -25,46 +40,25 @@ export default function createNFT() {
             <section className="max-w-screen-2xl mx-auto flex flex-col items-start justify-start md:flex-row py-24">
               <CreateNft />
               <div className="w-full mt-1  md:w-1/2 md:ml-8 md:mt-0  lg:w-2/3">
-                <div>My NFTS</div>
-                <div className="card-wrapper">
-                  {allItems.map((item) => {
-                    let {
-                      price,
-                      category,
-                      itemId,
-                      owner,
-                      tokenId,
-                      seller,
-                      name,
-                      image,
-                      description,
-                      nftContract,
-                    } = item;
-
-                    if (currentAccount === seller) {
-                      return (
-                        <div key={itemId}>
-                          <NftCard
-                            image={image}
-                            name={name}
-                            price={price}
-                            category={category}
-                            itemId={itemId}
-                            owner={owner}
-                            tokenId={tokenId}
-                            description={description}
-                            seller={seller}
-                            nftContract={nftContract}
-                          />
-                        </div>
-                      );
-                    }
-                  })}
+                <div className="flex items-start justify-between sm:w-full lg:w-2/3 xl:w-1/2 px-4">
+                  <div
+                    className="filter-btn"
+                    onClick={() => setItems(allItems)}
+                  >
+                    All NFTs
+                  </div>
+                  <div className="filter-btn" onClick={() => handleMyNfts()}>
+                    My NFTs
+                  </div>
+                  <div
+                    className="filter-btn"
+                    onClick={() => handlePurchasedNfts()}
+                  >
+                    Purchased NFTs
+                  </div>
                 </div>
-
-                <div>My purchased nfts</div>
                 <div className="card-wrapper">
-                  {allItems.map((item) => {
+                  {items.map((item) => {
                     let {
                       price,
                       category,
@@ -76,24 +70,26 @@ export default function createNFT() {
                       image,
                       description,
                       nftContract,
+                      sold,
                     } = item;
 
-                    if (currentAccount === owner) {
-                      return (
-                        <div key={itemId}>
-                          <NftCard
-                            image={image}
-                            name={name}
-                            price={price}
-                            category={category}
-                            itemId={itemId}
-                            owner={owner}
-                            tokenId={tokenId}
-                            description={description}
-                          />
-                        </div>
-                      );
-                    }
+                    return (
+                      <div key={itemId}>
+                        <NftCard
+                          image={image}
+                          name={name}
+                          price={price}
+                          category={category}
+                          itemId={itemId}
+                          owner={owner}
+                          tokenId={tokenId}
+                          description={description}
+                          seller={seller}
+                          nftContract={nftContract}
+                          sold={sold}
+                        />
+                      </div>
+                    );
                   })}
                 </div>
               </div>

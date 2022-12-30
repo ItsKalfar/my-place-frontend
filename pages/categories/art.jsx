@@ -42,9 +42,15 @@ export default function art() {
                       name,
                       image,
                       description,
+                      sold,
                     } = item;
 
-                    if (category === "art") {
+                    if (
+                      category === "art" &&
+                      currentAccount !== seller &&
+                      currentAccount !== owner &&
+                      sold == false
+                    ) {
                       return (
                         <div key={itemId}>
                           <NftCard

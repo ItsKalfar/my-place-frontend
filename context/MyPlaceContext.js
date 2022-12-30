@@ -133,8 +133,8 @@ export const MyPlaceContextProvider = ({ children }) => {
           category: meta.data.category,
           description: meta.data.description,
           nftContract: getItem.nftContract,
+          sold: getItem.sold,
         };
-
         setAllItems((prev) => [item, ...prev]);
         setIsLoading(false);
       }

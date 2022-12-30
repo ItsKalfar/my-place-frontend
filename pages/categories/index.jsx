@@ -8,6 +8,7 @@ import Head from "next/head";
 
 export default function index() {
   const { isLoading, allItems, currentAccount } = useContext(MyPlaceContext);
+
   return (
     <>
       {" "}
@@ -19,13 +20,13 @@ export default function index() {
           {" "}
           <Banner />
           <Heading heading={"Explore All Categories"} />
-          <section className="max-w-screen-2xl mx-auto py-12 h-screen">
+          <section className="max-w-screen-2xl mx-auto py-12">
             {isLoading ? (
               <div className="w-full h-screen flex items-center justify-center ">
                 <HashLoader color="#2193b0" />
               </div>
             ) : (
-              <div className="card-wrapper">
+              <div className="card-box">
                 {allItems.map((item) => {
                   let {
                     price,
@@ -38,9 +39,14 @@ export default function index() {
                     image,
                     description,
                     nftContract,
+                    sold,
                   } = item;
 
-                  if (currentAccount !== seller || currentAccount !== owner) {
+                  if (
+                    currentAccount !== seller &&
+                    currentAccount !== owner &&
+                    sold == false
+                  ) {
                     return (
                       <div key={itemId}>
                         <NftCard
