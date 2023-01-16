@@ -5,6 +5,7 @@ import { HashLoader } from "react-spinners";
 import Banner from "../../components/Banner";
 import Heading from "../../components/Heading";
 import Head from "next/head";
+import Photography from "../../assets/photo.png";
 
 export default function photography() {
   const { isLoading, allItems, currentAccount } = useContext(MyPlaceContext);
@@ -16,16 +17,14 @@ export default function photography() {
       {currentAccount ? (
         <div>
           {" "}
-          <Banner
-            img={"https://4kwallpapers.com/images/walls/thumbs/7526.jpg"}
-          />
+          <Banner img={Photography} />
           <Heading
             heading={"Explore Photography"}
             description={
               "Photographers are taking the NFT world by storm, and we've got a selection of breathtaking collections from a growing and increasingly global community of creators right here on MyPlace."
             }
           />
-          <section className="max-w-screen-xl mx-auto py-12  h-screen">
+          <section className="max-w-screen-2xl mx-auto py-12  h-screen">
             {isLoading ? (
               <div className="w-full h-screen flex items-center justify-center ">
                 <HashLoader color="#2193b0" />

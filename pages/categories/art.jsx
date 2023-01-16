@@ -5,6 +5,7 @@ import { HashLoader } from "react-spinners";
 import Banner from "../../components/Banner";
 import Heading from "../../components/Heading";
 import Head from "next/head";
+import Art from "../../assets/art.png";
 
 export default function art() {
   const { isLoading, allItems, currentAccount } = useContext(MyPlaceContext);
@@ -16,9 +17,7 @@ export default function art() {
       {currentAccount ? (
         <div>
           {" "}
-          <Banner
-            img={"https://4kwallpapers.com/images/walls/thumbs_2t/8085.jpg"}
-          />
+          <Banner img={Art} />
           <Heading
             heading={"Explore Art"}
             description={

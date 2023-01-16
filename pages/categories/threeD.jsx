@@ -5,6 +5,7 @@ import { HashLoader } from "react-spinners";
 import Banner from "../../components/Banner";
 import Heading from "../../components/Heading";
 import Head from "next/head";
+import ThreeD from "../../assets/3d.png";
 
 export default function threeD() {
   const { isLoading, allItems, currentAccount } = useContext(MyPlaceContext);
@@ -16,16 +17,14 @@ export default function threeD() {
       {currentAccount ? (
         <div>
           {" "}
-          <Banner
-            img={"https://4kwallpapers.com/images/walls/thumbs_2t/8128.jpeg"}
-          />
+          <Banner img={ThreeD} />
           <Heading
             heading={"Explore 3D Art"}
             description={
               "An online community of makers, developers, and traders is pushing the art world into new territory. It all started with CryptoPunks, a set of 10,000 randomly generated punks that proved demand for the digital ownership of non-physical items and collectibles in 2017, and the market has evolved rapidly ever since."
             }
           />
-          <section className="max-w-screen-xl mx-auto py-12  h-screen">
+          <section className="max-w-screen-2xl mx-auto py-12  h-screen">
             {isLoading ? (
               <div className="w-full h-screen flex items-center justify-center ">
                 <HashLoader color="#2193b0" />

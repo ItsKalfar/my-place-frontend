@@ -5,6 +5,7 @@ import { HashLoader } from "react-spinners";
 import Banner from "../../components/Banner";
 import Heading from "../../components/Heading";
 import Head from "next/head";
+import Illustrations from "../../assets/illustrations.png";
 
 export default function illustration() {
   const { isLoading, allItems, currentAccount } = useContext(MyPlaceContext);
@@ -16,16 +17,14 @@ export default function illustration() {
       {currentAccount ? (
         <div>
           {" "}
-          <Banner
-            img={"https://4kwallpapers.com/images/walls/thumbs_2t/8813.jpg"}
-          />
+          <Banner img={Illustrations} />
           <Heading
             heading={"Explore Illustration"}
             description={
               "The way we value internet-native items is changing with the development of blockchain technology. Kittens, punks, and memes are now trading digital wallets for cryptocurrencies, and the online collectibles market is taking shape before our eyes."
             }
           />
-          <section className="max-w-screen-xl mx-auto py-12  h-screen">
+          <section className="max-w-screen-2xl mx-auto py-12  h-screen">
             {isLoading ? (
               <div className="w-full h-screen flex items-center justify-center ">
                 <HashLoader color="#2193b0" />

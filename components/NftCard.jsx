@@ -31,7 +31,7 @@ export default function NftCard({
       <div className="p-5">
         <div>
           <h5 className="text-xl font-semibold tracking-tight text-gray-900 ">
-            {name}
+            {name.slice(0, 12) + "..."}
           </h5>
         </div>
         <p>{seller.slice(0, 5) + "..." + seller.slice(37, 42)}</p>

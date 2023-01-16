@@ -5,6 +5,7 @@ import { HashLoader } from "react-spinners";
 import Banner from "../../components/Banner";
 import Heading from "../../components/Heading";
 import Head from "next/head";
+import Sports from "../../assets/sports.png";
 
 export default function sports() {
   const { isLoading, allItems, currentAccount } = useContext(MyPlaceContext);
@@ -16,16 +17,14 @@ export default function sports() {
       {currentAccount ? (
         <div>
           {" "}
-          <Banner
-            img={"https://4kwallpapers.com/images/walls/thumbs_2t/8380.png"}
-          />
+          <Banner img={Sports} />
           <Heading
             heading={"Explore Sport NFTs"}
             description={
               "Explore and own collectibles from some of the biggest sports teams and brands in the world."
             }
           />
-          <section className="max-w-screen-xl mx-auto py-12  h-screen">
+          <section className="max-w-screen-2xl mx-auto py-12  h-screen">
             {isLoading ? (
               <div className="w-full h-screen flex items-center justify-center ">
                 <HashLoader color="#2193b0" />

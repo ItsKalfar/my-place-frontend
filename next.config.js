@@ -8,7 +8,6 @@ const nextConfig = {
       `${process.env.NEXT_PUBLIC_SUBDOMAIN}/ipfs`,
       `${process.env.NEXT_PUBLIC_SUBDOMAIN}/ipfs/`,
       process.env.NEXT_PUBLIC_INFURA_HOST,
-      "4kwallpapers.com",
     ],
   },
 };

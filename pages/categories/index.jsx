@@ -5,6 +5,7 @@ import { HashLoader } from "react-spinners";
 import Banner from "../../components/Banner";
 import Heading from "../../components/Heading";
 import Head from "next/head";
+import AllCat from "../../assets/allCat.png";
 
 export default function index() {
   const { isLoading, allItems, currentAccount } = useContext(MyPlaceContext);
@@ -18,9 +19,7 @@ export default function index() {
       {currentAccount ? (
         <div>
           {" "}
-          <Banner
-            img={"https://4kwallpapers.com/images/walls/thumbs_2t/8298.jpg"}
-          />
+          <Banner img={AllCat} />
           <Heading heading={"Explore All Categories"} />
           <section className="max-w-screen-2xl mx-auto py-12">
             {isLoading ? (
