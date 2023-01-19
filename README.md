@@ -1,34 +1,34 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# MyPlace - NFT Marketplace - Front end
 
-First, run the development server:
+MY-PLACE is an NFT marketplace that allows users to buy and sell nonfungible tokens (NFTs). It is deployed on the Goerli network where a user can list NFT by paying some commission.
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+## 🚀 About Me
+Hi 👋, I'm Sagar Gund
+A passionate frontend and blockchain developer from India
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+## Authors
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+- [@SagarGund](https://www.github.com/ItsKalfar)
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
-## Learn More
+## Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+**Client:** Next.js, Tailwind CSS \
+**Database:** IPFS
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Demo
+
+### Prerequisites
+
+First you have to install metamask in your browser and make an account in it. Then switch the network from Main Net to Goerli Test Network. Then fund the account using [Goerli Foucet](https://goerlifaucet.com/)
+
+### Visit
+
+Then you can visit the web application which is hosted on Vercel [here!](my-place-frontend.vercel.app). Make sure your wallet is on Goerli test network and is funded with test ETH.
+
