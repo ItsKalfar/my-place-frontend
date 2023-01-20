@@ -5,6 +5,7 @@ import LatestNft from "../components/LatestNft";
 import Head from "next/head";
 import { useContext } from "react";
 import { MyPlaceContext } from "../context/MyPlaceContext";
+import Link from "next/link";
 
 export default function Home() {
   const { currentAccount } = useContext(MyPlaceContext);
@@ -51,8 +52,35 @@ export default function Home() {
             </div>
           </div>
         ) : (
-          <div className="h-screen w-full flex items-center justify-center">
-            Please Connect Wallet First
+          <div className="container mx-auto p-8 flex flex-col items-center w-screen h-screen justify-center">
+            <div className="max-w-md w-full pointer-events-auto flex flex-col items-start mx-auto p-4 text-center">
+              <p className="text-xl font-medium text-gray-900 w-full">
+                Welcome to MyPlace!
+              </p>
+              <p className="mt-2 text-sm text-gray-500">
+                To use MySpace, make sure you have{" "}
+                <Link
+                  href="https://metamask.io/"
+                  target="_blank"
+                  className="text-blue-600 cursor-pointer"
+                >
+                  Metamask
+                </Link>{" "}
+                installed. Make an account in Metamask Wallet. Then switch the
+                network from Ethereum Mainnet to Goerli Test network. After
+                that, fund that account with some test ETH using{" "}
+                <Link
+                  href="https://goerlifaucet.com/"
+                  target="_blank"
+                  className="text-blue-600 cursor-pointer"
+                >
+                  Goerli Faucet.
+                </Link>
+              </p>
+              <p className="text-sm mt-4 text-gray-500 w-full">
+                After that, connect the wallet using Connect button.
+              </p>
+            </div>
           </div>
         )}
       </div>
