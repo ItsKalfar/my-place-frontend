@@ -101,8 +101,9 @@ export const MyPlaceContextProvider = ({ children }) => {
     try {
       setIsLoading(true);
       const { ethereum } = window;
-      const provider = new ethers.providers.Web3Provider(ethereum);
-      await provider.send("eth_requestAccounts", []);
+       const provider = new ethers.JsonRpcProvider(
+            "https://goerli.infura.io/v3/7d6feffbace64e228822de9d8731dd91"
+          );
       const signer = provider.getSigner();
       const MyPlace = new ethers.Contract(
         MyPlaceContract,
