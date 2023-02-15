@@ -14,7 +14,8 @@ A passionate frontend and blockchain developer from India
 ## Tech Stack
 
 **Client:** Next.js, Tailwind CSS \
-**Database:** IPFS
+**Database:** IPFS \
+**Blockchain:** Solidity, Hardhat
 
 ## Demo
 
