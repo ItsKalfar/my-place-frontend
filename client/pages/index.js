@@ -58,7 +58,7 @@ export default function Home() {
                 Welcome to MyPlace!
               </p>
               <p className="mt-2 text-sm text-gray-500">
-                To use MySpace, make sure you have{" "}
+                To use MyPlace, make sure you have{" "}
                 <Link
                   href="https://metamask.io/"
                   target="_blank"
