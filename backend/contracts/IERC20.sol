@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-contract Token {
+contract IERC20 {
     // My Variables - State variables
     string public s_name;
     string public s_symbol;

@@ -10,16 +10,16 @@ module.exports = {
     hardhat: {
       chainId: 1337,
     },
-    goerli: {
-      chainId: 5,
+    mumbai: {
+      chainId: 80001,
       blockConfirmations: 6,
-      url: process.env.INFURA_GOERLI_API,
+      url: process.env.ALCHEMY_MUMBAI_API,
       accounts: [process.env.PRIVATE_KEY],
     },
   },
   etherscan: {
     apiKey: {
-      goerli: process.env.ETHERSCAN_API_KEY,
+      mumbai: process.env.POLYGONSCAN_API_KEY,
     },
   },
   namedAccounts: {

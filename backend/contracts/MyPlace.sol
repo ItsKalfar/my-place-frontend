@@ -4,6 +4,7 @@ pragma solidity ^0.8.17;
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "./IERC20.sol";
 
 error PriceMustNotZero();
 error PayListingFees();
@@ -11,11 +12,13 @@ error PriceNotMet();
 error NotSeller();
 error NotListed();
 error NotOwner();
+error NotEnoughBalance();
 
 contract MyPlace is ReentrancyGuard {
     using Counters for Counters.Counter;
     Counters.Counter public _itemIds;
     Counters.Counter public _itemSold;
+    IERC20 private token;
 
     // State Variables
     struct Item {
@@ -40,9 +43,10 @@ contract MyPlace is ReentrancyGuard {
     event ItemBought();
     event Received(address, uint);
 
-    constructor() {
+    constructor(address _tokenAddress) {
         // Owner of the contract is the one who deploys it.
         owner = payable(msg.sender);
+        token = IERC20(_tokenAddress);
     }
 
     // Modifiers
@@ -90,7 +94,8 @@ contract MyPlace is ReentrancyGuard {
             false
         );
         IERC721(_nftContract).transferFrom(msg.sender, address(this), _tokenId);
-        (bool paid, ) = payable(address(this)).call{value: listingPrice}("");
+        // (bool paid, ) = payable(address(this)).call{value: listingPrice}("");
+        bool paid = transferTokens(msg.sender, address(this), listingPrice);
         require(paid, "Fees not paid");
         emit ItemListed();
     }
@@ -113,12 +118,29 @@ contract MyPlace is ReentrancyGuard {
             msg.sender,
             s_allListings[itemId].tokenId
         );
-        (bool sent, ) = payable(s_allListings[itemId].seller).call{
-            value: s_allListings[itemId].price
-        }("");
+        bool sent = transferTokens(
+            msg.sender,
+            s_allListings[itemId].seller,
+            s_allListings[itemId].price
+        );
         require(sent, "Call failed");
         s_allListings[itemId].seller = payable(address(0));
         emit ItemBought();
+    }
+
+    // Function to transfer tokens
+    function transferTokens(
+        address _from,
+        address _to,
+        uint _amount
+    ) internal returns (bool) {
+        // Ensure that the sender has enough tokens
+        if (token.balanceOf(_from) <= _amount) {
+            revert NotEnoughBalance();
+        }
+        // Transfer tokens from sender to receiver
+        token.transferFrom(_from, _to, _amount);
+        return true;
     }
 
     // Getter functions

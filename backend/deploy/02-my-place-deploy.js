@@ -11,7 +11,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   const { deployer } = await getNamedAccounts();
   const chainId = network.config.chainId;
 
-  args = [];
+  args = [networkConfig[chainId]["tokenAddress"]];
   try {
     log("----------------------------------------------");
     log("1) Deploying Contract");
@@ -26,7 +26,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     log("-------------------------------------------------------");
     if (
       !developmentChains.includes(network.name) &&
-      process.env.ETHERSCAN_API_KEY
+      process.env.POLYGONSCAN_API_KEY
     ) {
       log("Verifying....");
       await verify(myplace.address, args);

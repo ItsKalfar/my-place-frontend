@@ -4,26 +4,29 @@ const networkConfig = {
   default: {
     name: "hardhat",
     marketPlaceAddress: process.env.MYPLACE_CONTRACT_ADDRESS,
-    tokenName: "ArsyToken",
-    symbol: "ARSY",
+    tokenName: "Zether",
+    symbol: "ZTH",
     decimals: "18",
     totalSupply: ethers.utils.parseEther("10000000"),
+    toeknAddress: process.env.IERC20_CONTRACT_ADDRESS,
   },
   31337: {
     name: "localhost",
     marketPlaceAddress: process.env.MYPLACE_CONTRACT_ADDRESS,
-    tokenName: "ArsyToken",
-    symbol: "ARSY",
+    tokenName: "Zether",
+    symbol: "ZTH",
     decimals: "18",
     totalSupply: ethers.utils.parseEther("10000000"),
+    toeknAddress: process.env.IERC20_CONTRACT_ADDRESS,
   },
-  5: {
-    name: "goerli",
+  80001: {
+    name: "mumbai",
     marketPlaceAddress: process.env.MYPLACE_CONTRACT_ADDRESS,
-    tokenName: "ArsyToken",
-    symbol: "ARSY",
+    tokenName: "Zether",
+    symbol: "ZTH",
     decimals: "18",
     totalSupply: ethers.utils.parseEther("10000000"),
+    toeknAddress: process.env.IERC20_CONTRACT_ADDRESS,
   },
 };
 

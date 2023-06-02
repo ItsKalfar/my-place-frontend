@@ -20,7 +20,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
   try {
     log("1) Deploying Contract----------------");
-    const token = await deploy("Token", {
+    const token = await deploy("IERC20", {
       from: deployer,
       args: args,
       log: true,
@@ -34,7 +34,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   // Verify Contract
   if (
     !developmentChains.includes(network.name) &&
-    process.env.ETHERSCAN_API_KEY
+    process.env.POLYGONSCAN_API_KEY
   ) {
     log("Verifying------------------------------");
     await verify(token.address, arguments);
