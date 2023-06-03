@@ -2,23 +2,24 @@
 pragma solidity ^0.8.17;
 
 import "@openzeppelin/contracts/utils/Counters.sol";
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
-import "./IERC20.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/utils/Address.sol";
 
 error PriceMustNotZero();
 error PayListingFees();
 error PriceNotMet();
-error NotSeller();
 error NotListed();
 error NotOwner();
 error NotEnoughBalance();
+error AlreadySold();
 
 contract MyPlace is ReentrancyGuard {
     using Counters for Counters.Counter;
     Counters.Counter public _itemIds;
     Counters.Counter public _itemSold;
-    IERC20 private token;
+    using Address for address payable;
 
     // State Variables
     struct Item {
@@ -33,35 +34,21 @@ contract MyPlace is ReentrancyGuard {
     }
     // Owner of the contract who makes some commission on listing
     address payable owner;
-    // Listing commsion
-    uint256 listingPrice = 0.025 ether;
     //Mapping to keep track of the NFT with its TokenId
     mapping(uint256 => Item) public s_allListings;
+    IERC20 public zetherToken;
+    uint256 public listingFees;
 
     event ItemListed();
     event ItemCanceled();
     event ItemBought();
     event Received(address, uint);
 
-    constructor(address _tokenAddress) {
+    constructor(address _zetherToken) {
         // Owner of the contract is the one who deploys it.
         owner = payable(msg.sender);
-        token = IERC20(_tokenAddress);
-    }
-
-    // Modifiers
-    modifier isSeller(uint256 itemId) {
-        if (s_allListings[itemId].seller != msg.sender) {
-            revert NotSeller();
-        }
-        _;
-    }
-
-    modifier notListed(uint256 itemId) {
-        if (s_allListings[itemId].price <= 0) {
-            revert NotListed();
-        }
-        _;
+        zetherToken = IERC20(_zetherToken);
+        listingFees = 1; // 1 Zether token as commission
     }
 
     // Functions
@@ -75,11 +62,15 @@ contract MyPlace is ReentrancyGuard {
         uint256 _price,
         string memory _itemCategory
     ) external payable nonReentrant {
-        if (_price < 0) {
+        if (_price <= 0) {
             revert PriceMustNotZero();
         }
-        if (msg.value != listingPrice) {
-            revert PayListingFees();
+        if (zetherToken.balanceOf(msg.sender) < listingFees) {
+            revert NotEnoughBalance();
+        }
+        IERC721 nft = IERC721(_nftContract);
+        if (nft.ownerOf(_tokenId) != msg.sender) {
+            revert NotOwner();
         }
         _itemIds.increment();
         uint256 currentId = _itemIds.current();
@@ -93,10 +84,8 @@ contract MyPlace is ReentrancyGuard {
             _price,
             false
         );
-        IERC721(_nftContract).transferFrom(msg.sender, address(this), _tokenId);
-        // (bool paid, ) = payable(address(this)).call{value: listingPrice}("");
-        bool paid = transferTokens(msg.sender, address(this), listingPrice);
-        require(paid, "Fees not paid");
+        nft.transferFrom(msg.sender, address(this), _tokenId);
+        zetherToken.transferFrom(msg.sender, address(this), listingFees);
         emit ItemListed();
     }
 
@@ -104,43 +93,26 @@ contract MyPlace is ReentrancyGuard {
     /// @param itemId - The token id of the Item to buy
     function buyNFT(
         uint256 itemId,
-        address nftContract
-    ) external payable notListed(itemId) nonReentrant {
-        uint256 price = s_allListings[itemId].price;
-        if (msg.value != price) {
-            revert PriceNotMet();
+        address _nftContract
+    ) external payable nonReentrant {
+        Item storage item = s_allListings[itemId];
+        if (item.itemId == 0) {
+            revert NotListed();
         }
-        s_allListings[itemId].owner = payable(msg.sender);
-        s_allListings[itemId].sold = true;
-        _itemSold.increment();
-        IERC721(nftContract).transferFrom(
-            address(this),
-            msg.sender,
-            s_allListings[itemId].tokenId
-        );
-        bool sent = transferTokens(
-            msg.sender,
-            s_allListings[itemId].seller,
-            s_allListings[itemId].price
-        );
-        require(sent, "Call failed");
-        s_allListings[itemId].seller = payable(address(0));
-        emit ItemBought();
-    }
-
-    // Function to transfer tokens
-    function transferTokens(
-        address _from,
-        address _to,
-        uint _amount
-    ) internal returns (bool) {
-        // Ensure that the sender has enough tokens
-        if (token.balanceOf(_from) <= _amount) {
+        if (item.sold) {
+            revert AlreadySold();
+        }
+        if (zetherToken.balanceOf(msg.sender) < item.price) {
             revert NotEnoughBalance();
         }
-        // Transfer tokens from sender to receiver
-        token.transferFrom(_from, _to, _amount);
-        return true;
+        item.owner = payable(msg.sender);
+        item.sold = true;
+        _itemSold.increment();
+        IERC721 nft = IERC721(_nftContract);
+        nft.transferFrom(address(this), msg.sender, item.tokenId);
+        zetherToken.transferFrom(msg.sender, item.seller, item.price);
+        item.seller = payable(address(0));
+        emit ItemBought();
     }
 
     // Getter functions
@@ -158,7 +130,7 @@ contract MyPlace is ReentrancyGuard {
     }
 
     function getListingPrice() external view returns (uint256) {
-        return listingPrice;
+        return listingFees;
     }
 
     function getContractOwner() external view returns (address) {
@@ -171,11 +143,10 @@ contract MyPlace is ReentrancyGuard {
 
     function withdrawCommisson() external payable {
         require(owner == msg.sender, "Not owner");
-        (bool sent, ) = payable(owner).call{value: address(this).balance}("");
-        require(sent, "Call failed");
-    }
-
-    receive() external payable {
-        emit Received(msg.sender, msg.value);
+        zetherToken.transferFrom(
+            address(this),
+            msg.sender,
+            zetherToken.balanceOf(address(this))
+        );
     }
 }

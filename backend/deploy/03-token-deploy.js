@@ -11,16 +11,11 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   const { deployer } = await getNamedAccounts();
   const chainId = network.config.chainId;
 
-  const args = [
-    networkConfig[chainId]["tokenName"],
-    networkConfig[chainId]["symbol"],
-    networkConfig[chainId]["decimals"],
-    networkConfig[chainId]["totalSupply"],
-  ];
+  const args = [networkConfig[chainId]["totalSupply"]];
 
   try {
     log("1) Deploying Contract----------------");
-    const token = await deploy("IERC20", {
+    const token = await deploy("Zether", {
       from: deployer,
       args: args,
       log: true,
