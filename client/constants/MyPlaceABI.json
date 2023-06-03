@@ -1,9 +1,25 @@
 {
   "abi": [
     {
-      "inputs": [],
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_zetherToken",
+          "type": "address"
+        }
+      ],
       "stateMutability": "nonpayable",
       "type": "constructor"
+    },
+    {
+      "inputs": [],
+      "name": "AlreadySold",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "NotEnoughBalance",
+      "type": "error"
     },
     {
       "inputs": [],
@@ -12,17 +28,12 @@
     },
     {
       "inputs": [],
-      "name": "PayListingFees",
+      "name": "NotOwner",
       "type": "error"
     },
     {
       "inputs": [],
       "name": "PriceMustNotZero",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "PriceNotMet",
       "type": "error"
     },
     {
@@ -97,13 +108,39 @@
         },
         {
           "internalType": "address",
-          "name": "nftContract",
+          "name": "_nftContract",
           "type": "address"
         }
       ],
       "name": "buyNFT",
       "outputs": [],
       "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getContractOwner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getEarnings",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
       "type": "function"
     },
     {
@@ -235,6 +272,19 @@
       "type": "function"
     },
     {
+      "inputs": [],
+      "name": "listingFees",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "inputs": [
         {
           "internalType": "uint256",
@@ -289,8 +339,24 @@
       "type": "function"
     },
     {
+      "inputs": [],
+      "name": "withdrawCommisson",
+      "outputs": [],
       "stateMutability": "payable",
-      "type": "receive"
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "zetherToken",
+      "outputs": [
+        {
+          "internalType": "contract IERC20",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
     }
   ]
 }

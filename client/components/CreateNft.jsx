@@ -65,7 +65,7 @@ export default function CreateNft() {
   };
 
   return (
-    <div className=" w-full md:w-1/2 lg:w-1/3 px-6 py-10 rounded text-black">
+    <div className="w-full md:w-1/2 lg:w-1/3 px-6 py-10 rounded text-black">
       <div className="mb-8">
         <input
           type="text"

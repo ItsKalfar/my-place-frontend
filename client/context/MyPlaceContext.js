@@ -2,7 +2,8 @@ import React, { useState, createContext, useEffect } from "react";
 import { ethers } from "ethers";
 import { toast } from "react-hot-toast";
 import MyPlaceABI from "../constants/MyPlaceABI.json";
-import NFTABI from "../constants/NFT.json";
+import NFTABI from "../constants/NFTABI.json";
+import ZetherABI from "../constants/ZetherABI.json";
 import axios from "axios";
 
 let eth;
@@ -16,6 +17,7 @@ export const MyPlaceContext = createContext();
 export const MyPlaceContextProvider = ({ children }) => {
   const MyPlaceContract = process.env.NEXT_PUBLIC_MY_PLACE_CONTRACT_ADDRESS;
   const NftContract = process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS;
+  const ZetherContract = process.env.NEXT_PUBLIC_ZETHER_CONTRACT_ADDRESS;
   const [currentAccount, setCurrentAccount] = useState(null);
   const [allItems, setAllItems] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -75,15 +77,18 @@ export const MyPlaceContextProvider = ({ children }) => {
             MyPlaceABI.abi,
             signer
           );
-          let listingPrice = await MyPlace.getListingPrice();
-          listingPrice = listingPrice.toString();
           toast.loading("Listing Your NFT", { duration: 4000 });
+          const Zether = new ethers.Contract(
+            ZetherContract,
+            ZetherABI.abi,
+            signer
+          );
+          await Zether.approve(MyPlaceContract, 1);
           let listingNFT = await MyPlace.listNFT(
             NftContract,
             tokenId,
             price,
-            category,
-            { value: listingPrice }
+            category
           );
           MyPlace.on("ItemListed", () => {
             toast.success("Item Listed Successfully");
@@ -99,43 +104,49 @@ export const MyPlaceContextProvider = ({ children }) => {
 
   const getAllItems = async () => {
     try {
-      setIsLoading(true);
-      const { ethereum } = window;
-      const provider = new ethers.providers.Web3Provider(ethereum);
-      await provider.send("eth_requestAccounts", []);
-      const signer = provider.getSigner();
-      const MyPlace = new ethers.Contract(
-        MyPlaceContract,
-        MyPlaceABI.abi,
-        signer
-      );
-      const NFT = new ethers.Contract(NftContract, NFTABI.abi, signer);
-      let itemId = await MyPlace.getitemId();
-      itemId = parseInt(itemId);
+      if (
+        typeof window.ethereum !== "undefined" ||
+        typeof window.web3 !== "undefined"
+      ) {
+        const { ethereum } = window;
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        const MyPlace = new ethers.Contract(
+          MyPlaceContract,
+          MyPlaceABI.abi,
+          signer
+        );
 
-      for (let index = 1; index <= itemId; index++) {
-        let getItem = await MyPlace.getListing(index);
-        let tokenId = getItem.tokenId;
-        tokenId = tokenId.toString();
-        const tokenUri = await NFT.tokenURI(tokenId);
-        const meta = await axios.get(tokenUri);
-        const price = getItem.price.toString();
-        const priceInETH = ethers.utils.formatEther(price);
-        let item = {
-          price: priceInETH,
-          itemId: getItem.itemId.toString(),
-          tokenId: tokenId,
-          seller: getItem.seller.toString().toLowerCase(),
-          owner: getItem.owner.toString().toLowerCase(),
-          image: meta.data.image,
-          name: meta.data.name,
-          category: meta.data.category,
-          description: meta.data.description,
-          nftContract: getItem.nftContract,
-          sold: getItem.sold,
-        };
-        setAllItems((prev) => [item, ...prev]);
-        setIsLoading(false);
+        const NFT = new ethers.Contract(NftContract, NFTABI.abi, signer);
+        let itemId = await MyPlace.getitemId();
+        itemId = parseInt(itemId);
+        for (let index = 1; index <= itemId; index++) {
+          let getItem = await MyPlace.getListing(index);
+          let tokenId = getItem.tokenId;
+          tokenId = parseInt(tokenId.toString());
+          const tokenUri = await NFT.tokenURI(tokenId);
+          const meta = await axios.get(tokenUri);
+          const price = getItem.price.toString();
+          let priceInETH = ethers.utils.formatEther(price);
+          priceInETH = parseInt(priceInETH);
+          let itemId = await MyPlace.getitemId();
+          itemId = parseInt(itemId);
+
+          let item = {
+            price: priceInETH,
+            itemId: tokenId,
+            tokenId: tokenId,
+            seller: getItem.seller.toString().toLowerCase(),
+            owner: getItem.owner.toString().toLowerCase(),
+            image: meta.data.image,
+            name: meta.data.name,
+            category: meta.data.category,
+            description: meta.data.description,
+            nftContract: getItem.nftContract,
+            sold: getItem.sold,
+          };
+          setAllItems((prev) => [item, ...prev]);
+        }
       }
     } catch (error) {
       console.log(error);
@@ -148,26 +159,28 @@ export const MyPlaceContextProvider = ({ children }) => {
         typeof window.ethereum !== "undefined" ||
         typeof window.web3 !== "undefined"
       ) {
-        let priceinWei = ethers.utils.parseEther(price);
         const { ethereum } = window;
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
-        console.log("fired");
         const MyPlace = new ethers.Contract(
           MyPlaceContract,
           MyPlaceABI.abi,
           signer
         );
         toast.loading("Processing Your Purchase", { duration: 4000 });
-        let buyNft = await MyPlace.buyNFT(itemId, nftContract, {
-          value: priceinWei,
-        });
+        const Zether = new ethers.Contract(
+          ZetherContract,
+          ZetherABI.abi,
+          signer
+        );
+        await Zether.approve(MyPlaceContract, price);
+        let buyNft = await MyPlace.buyNFT(itemId, nftContract);
         MyPlace.on("ItemBought", () => {
           toast.success("Item Bought");
         });
       }
     } catch (error) {
-      console.log(error.message);
+      toast.error(error.message);
     }
   };
 
