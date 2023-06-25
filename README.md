@@ -1,6 +1,6 @@
 # MyPlace - NFT Marketplace - Front end
 
-MY-PLACE is an NFT marketplace that allows users to buy and sell nonfungible tokens (NFTs). It is deployed on the Goerli network where a user can list NFT by paying some commission.
+MY-PLACE is an NFT marketplace that allows users to buy and sell nonfungible tokens (NFTs). It is deployed on the Goerli network where a user can list NFT by paying some commission.
 
 ## 🚀 About Me
 
@@ -21,8 +21,8 @@ A passionate frontend and blockchain developer from India
 
 ### Prerequisites
 
-First you have to install metamask in your browser and make an account in it. Then switch the network from Main Net to Goerli Test Network. Then fund the account using [Goerli Foucet](https://goerlifaucet.com/)
+First, you have to install Metamask in your browser and make an account in it. Then switch the network from Main Net to Polygon Mumbai Test Network. Then fund the account with our custom ERC20 token called ZTH.
 
 ### Visit
 
-Then you can visit the web application which is hosted on Vercel [here!](https://my-place-frontend.vercel.app/). Make sure your wallet is on Goerli test network and is funded with test ETH.
+Then you can visit the web application which is hosted on Vercel [here!](https://my-place-frontend.vercel.app/). Make sure your wallet is on the Mumbai test network and is funded with test Matic.
