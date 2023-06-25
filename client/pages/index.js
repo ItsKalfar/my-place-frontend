@@ -67,14 +67,14 @@ export default function Home() {
                   Metamask
                 </Link>{" "}
                 installed. Make an account in Metamask Wallet. Then switch the
-                network from Ethereum Mainnet to Goerli Test network. After
-                that, fund that account with some test ETH using{" "}
+                network from Ethereum Mainnet to Polygon Mumbai Test network. After
+                that, fund that account with some test Mumbai using{" "}
                 <Link
-                  href="https://goerlifaucet.com/"
+                  href="https://mumbaifaucet.com/"
                   target="_blank"
                   className="text-blue-600 cursor-pointer"
                 >
-                  Goerli Faucet.
+                  Mumbai Faucet.
                 </Link>
               </p>
               <p className="text-sm mt-4 text-gray-500 w-full">
